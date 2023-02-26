@@ -2,3 +2,4 @@ colorgram.py
 numpy
 Pillow
 streamlit
+requests
