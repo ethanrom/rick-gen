@@ -1,5 +1,4 @@
 colorgram.py
 numpy
 Pillow
-requests
 streamlit
