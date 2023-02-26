@@ -1,33 +1,27 @@
 import streamlit as st
-import nltk
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
+import markovify
 
-from nltk.tokenize import word_tokenize, sent_tokenize
+# Define the function to generate text using Markov Chain
+def generate_text(text_input):
+    text_model = markovify.Text(text_input, state_size=2)
+    generated_text = text_model.make_sentence()
+    return generated_text
 
-seed_phrase = st.text_input("Enter a seed phrase:", "I love")
-generated_text = ""
-
-if seed_phrase:
-    # Tokenize seed phrase
-    seed_tokens = word_tokenize(seed_phrase)
-
-    # Generate text
-    generated_text = seed_phrase + " "
-    for i in range(5):
-        # Get the last word of the generated text
-        last_word = generated_text.split()[-1]
-        
-        # Generate the next word based on the last word using a bigram model
-        cfd = nltk.ConditionalFreqDist(nltk.bigrams(word_tokenize(generated_text)))
-        if last_word in cfd:
-            next_word = cfd[last_word].max()
+# Define the Streamlit app
+def app():
+    st.title("Rick Roll Generator")
+    st.write("Enter a seed phrase to generate text:")
+    
+    # Input for the seed phrase
+    seed_phrase = st.text_input("Seed Phrase:")
+    
+    # Generate text using the seed phrase
+    if st.button("Generate"):
+        if seed_phrase:
+            generated_text = generate_text(seed_phrase)
+            if generated_text:
+                st.write(generated_text.capitalize() + ". Never gonna give you up.")
+            else:
+                st.write("Sorry, could not generate text. Please try a different seed phrase.")
         else:
-            next_word = ""
-
-        generated_text += next_word + " "
-
-    # End the generated text with "Never Gonna Give You Up"
-    generated_text += "Never gonna give you up."
-
-st.write(generated_text)
+            st.write("Please enter a seed phrase to generate text.")
