@@ -12,15 +12,15 @@ st.title("Text Generator")
 st.write("Enter a seed phrase below and click the button to generate a paragraph that ends with the lyrics of 'Never Gonna Give You Up'.")
 
 # Get the seed text from the user
-seed_text_input = st.text_input("Seed phrase", seed_text)
+seed_text = st.text_input("Seed phrase", seed_text)
 
 # Generate the text
 if st.button("Generate"):
     # Tokenize the seed text
-    if not seed_text_input:
-        st.warning("Please enter a seed phrase.")
+    seed_tokens = nltk.word_tokenize(seed_text)
+    if not seed_tokens:
+        st.write("Error: Seed text is empty.")
     else:
-        seed_tokens = nltk.word_tokenize(seed_text_input)
         # Generate a random number of sentences (between 1 and 5) to add to the seed text
         num_sentences = random.randint(1, 5)
         for i in range(num_sentences):
