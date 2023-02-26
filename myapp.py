@@ -2,7 +2,6 @@ import streamlit as st
 import numpy as np
 from PIL import Image
 import colorgram
-import requests
 
 
 def get_colors(image, num_colors):
@@ -12,6 +11,7 @@ def get_colors(image, num_colors):
     img = Image.open(image)
     colors = colorgram.extract(img, num_colors)
     return [tuple(c.rgb) for c in colors]
+
 
 def find_closest_color(colors, target):
     colors = np.array(colors)
@@ -33,6 +33,7 @@ def apply_palette(colors, image):
     img = Image.fromarray(pixels, mode="RGBA")
     return img
 
+
 def main():
     st.title("Color Palette App")
 
@@ -51,12 +52,14 @@ def main():
         for i, color in enumerate(colors):
             hex_color = '#{:02x}{:02x}{:02x}'.format(*color)
             with col1 if i < 5 else col2 if i < 10 else col3 if i < 15 else col4 if i < 20 else col5:
-                st.color_picker(f"Color {i+1}", hex_color)
+                selected_color = st.color_picker(f"Color {i+1}", color)
+                colors[i] = tuple(int(selected_color.lstrip('#')[k:k+2], 16) for k in (0, 2, 4))
 
         # Apply the color palette to the second image
         if st.button("Apply Color Palette"):
             image2 = apply_palette(colors, image2)
             st.image(image2, caption="Result", use_column_width=True)
+
 
 if __name__ == "__main__":
     main()
