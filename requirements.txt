@@ -1,3 +1,5 @@
+colorgram.py
+numpy
+Pillow
+requests
 streamlit
-nltk
-markovify
