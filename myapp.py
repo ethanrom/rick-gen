@@ -13,6 +13,14 @@ def get_colors(image, num_colors):
     colors = colorgram.extract(img, num_colors)
     return [tuple(c.rgb) for c in colors]
 
+def find_closest_color(colors, target):
+    colors = np.array(colors)
+    target = np.array(target)
+    distances = np.sqrt(np.sum((colors - target) ** 2, axis=1))
+    closest_color_index = np.argmin(distances)
+    return colors[closest_color_index]
+
+
 def apply_palette(colors, image):
     img = Image.open(image).convert("RGBA")
     pixels = np.array(img)
