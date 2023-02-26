@@ -49,14 +49,14 @@ def main():
         st.subheader("Color Palette")
         col1, col2, col3, col4, col5 = st.columns(5)
         for i, color in enumerate(colors):
+            hex_color = '#{:02x}{:02x}{:02x}'.format(*color)
             with col1 if i < 5 else col2 if i < 10 else col3 if i < 15 else col4 if i < 20 else col5:
-                st.color_picker(f"Color {i+1}", color)
+                st.color_picker(f"Color {i+1}", hex_color)
 
         # Apply the color palette to the second image
         if st.button("Apply Color Palette"):
             image2 = apply_palette(colors, image2)
             st.image(image2, caption="Result", use_column_width=True)
-
 
 if __name__ == "__main__":
     main()
