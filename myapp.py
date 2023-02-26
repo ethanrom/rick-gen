@@ -12,7 +12,7 @@ def app():
     st.title("Rick Roll Generator")
     st.write("Enter a seed phrase to generate text:")
     
-    # Input for the seed phrase
+    # Input for the sed phrase
     seed_phrase = st.text_input("Seed Phrase:")
     
     # Generate text using the seed phrase
