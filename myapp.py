@@ -18,18 +18,16 @@ seed_text = st.text_input("Seed phrase", seed_text)
 if st.button("Generate"):
     # Tokenize the seed text
     seed_tokens = nltk.word_tokenize(seed_text)
-    if not seed_tokens:
-        st.write("Error: Seed text is empty.")
-    else:
-        # Generate a random number of sentences (between 1 and 5) to add to the seed text
-        num_sentences = random.randint(1, 5)
-        for i in range(num_sentences):
-            # Use the NLTK library to generate the next word based on the previous words
-            next_word = max(nltk.ConditionalFreqDist(nltk.bigrams(seed_tokens))[seed_tokens[-1]], key=nltk.ConditionalFreqDist(nltk.bigrams(seed_tokens))[seed_tokens[-1]].get)
-            seed_tokens.append(next_word)
-        # Combine the tokens into a single string and capitalize the first letter
-        paragraph = " ".join(seed_tokens)
-        paragraph = paragraph[0].upper() + paragraph[1:]
-        # Add the song lyrics at the end
-        paragraph += "\n" + "\n".join(song_lyrics)
-        st.write(paragraph)
+    # Generate a random number of sentences (between 1 and 5) to add to the seed text
+    num_sentences = random.randint(1, 5)
+    for i in range(num_sentences):
+        # Use the NLTK library to generate the next word based on the previous words
+        cfd = nltk.ConditionalFreqDist(nltk.bigrams(seed_tokens))
+        next_word = cfd[seed_tokens[-1]].max()
+        seed_tokens.append(next_word)
+    # Combine the tokens into a single string and capitalize the first letter
+    paragraph = " ".join(seed_tokens)
+    paragraph = paragraph[0].upper() + paragraph[1:]
+    # Add the song lyrics at the end
+    paragraph += "\n" + "\n".join(song_lyrics)
+    st.write(paragraph)
