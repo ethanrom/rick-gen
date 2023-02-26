@@ -1,27 +1,16 @@
+import random
 import streamlit as st
-import markovify
 
-# Define the function to generate text using Markov Chain
-def generate_text(text_input):
-    text_model = markovify.Text(text_input, state_size=2)
-    generated_text = text_model.make_sentence()
-    return generated_text
+# Define a list of jokes
+jokes = [    "Why did the tomato turn red? Because it saw the salad dressing!",    "Why did the scarecrow win an award? Because he was outstanding in his field!",    "Why do cows wear bells? Because their horns don't work!",    "Why did the chicken cross the playground? To get to the other slide!",    "Why don't scientists trust atoms? Because they make up everything!",    "What do you call a lazy kangaroo? A pouch potato!",]
 
 # Define the Streamlit app
-def app():
-    st.title("Rick Roll Generator")
-    st.write("Enter a seed phrase to generate text:")
-    
-    # Input for the sed phrase
-    seed_phrase = st.text_input("Seed Phrase:")
-    
-    # Generate text using the seed phrase
-    if st.button("Generate"):
-        if seed_phrase:
-            generated_text = generate_text(seed_phrase)
-            if generated_text:
-                st.write(generated_text.capitalize() + ". Never gonna give you up.")
-            else:
-                st.write("Sorry, could not generate text. Please try a different seed phrase.")
-        else:
-            st.write("Please enter a seed phrase to generate text.")
+def main():
+    st.title("Random Joke Generator")
+    st.write("Click the button below to generate a random joke!")
+    if st.button("Generate Joke"):
+        joke = random.choice(jokes)
+        st.write(joke)
+
+if __name__ == "__main__":
+    main()
