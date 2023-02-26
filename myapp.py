@@ -22,7 +22,7 @@ if st.button("Generate"):
     num_sentences = random.randint(1, 5)
     for i in range(num_sentences):
         # Use the NLTK library to generate the next word based on the previous words
-        next_word = nltk.ConditionalFreqDist(nltk.bigrams(seed_tokens)).max( seed_tokens[-1] )
+        next_word = max(nltk.ConditionalFreqDist(nltk.bigrams(seed_tokens))[seed_tokens[-1]], key=nltk.ConditionalFreqDist(nltk.bigrams(seed_tokens))[seed_tokens[-1]].get)
         seed_tokens.append(next_word)
     # Combine the tokens into a single string and capitalize the first letter
     paragraph = " ".join(seed_tokens)
