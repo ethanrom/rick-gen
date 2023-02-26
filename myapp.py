@@ -1,5 +1,6 @@
 import streamlit as st
 import nltk
+nltk.download('punkt')
 import random
 
 # Define the seed text and the song lyrics
