@@ -13,25 +13,17 @@ def get_colors(image, num_colors):
     colors = colorgram.extract(img, num_colors)
     return [tuple(c.rgb) for c in colors]
 
+def apply_palette(colors, image):
+    img = Image.open(image).convert("RGBA")
+    pixels = np.array(img)
 
-def apply_palette(palette, image):
-    """
-    Applies the given color palette to the image.
-    """
-    img = Image.open(image)
-    img = np.array(img)
+    for i in range(pixels.shape[0]):
+        for j in range(pixels.shape[1]):
+            closest_color = find_closest_color(colors, pixels[i, j][:3])
+            pixels[i, j] = np.append(closest_color, 255)
 
-    for i in range(img.shape[0]):
-        for j in range(img.shape[1]):
-            # Find the closest color in the palette to the pixel color.
-            pixel_color = tuple(img[i, j])
-            closest_color = min(palette, key=lambda c: sum((a - b) ** 2 for a, b in zip(c, pixel_color)))
-
-            # Replace the pixel color with the closest color from the palette.
-            img[i, j] = closest_color
-
-    return Image.fromarray(img)
-
+    img = Image.fromarray(pixels, mode="RGBA")
+    return img
 
 def main():
     st.title("Color Palette App")
